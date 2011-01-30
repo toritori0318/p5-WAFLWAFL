@@ -1,0 +1,30 @@
+---
+abstract: 'Perl extension for blah blah blah'
+author:
+  - 'torii, <torii@mshome.net>'
+build_requires:
+  ExtUtils::MakeMaker: 6.42
+configure_requires:
+  ExtUtils::MakeMaker: 6.42
+distribution_type: module
+generated_by: 'Module::Install version 1.00'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: WAFLWAFL
+no_index:
+  directory:
+    - example
+    - inc
+    - t
+requires:
+  Class::Accessor::Lite: 0
+  File::Path: 0
+  File::Spec: 0
+  String::CamelCase: 0
+  Text::Xslate: 0
+  UNIVERSAL::require: 0
+resources:
+  license: http://dev.perl.org/licenses/
+version: 0.01
