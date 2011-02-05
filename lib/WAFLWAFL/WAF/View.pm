@@ -10,22 +10,21 @@ sub templates {
 
 sub dir {
     my $self = shift;
-    return $self->v;
+    return $self->v->{dir} or die 'die view config [dir]';
+}
+
+sub file {
+    return;
 }
 
 sub ext {
     my $self = shift;
-    return '.tx';
-}
-
-sub output_template_dir {
-    my ($self, $table) = @_;
-    return File::Spec->catfile($self->output, $self->dir, $table);
+    return $self->v->{ext} || '.tt';
 }
 
 sub output_template_file {
     my ($self, $table, $file) = @_;
-    return File::Spec->catfile($self->output, $self->dir, $table, $file.$self->ext);
+    return File::Spec->catfile($self->output, $self->dir, lc($table), $file.$self->ext);
 }
 
 1;

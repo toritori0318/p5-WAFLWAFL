@@ -1,0 +1,66 @@
+package <: $app :>::<: $package :>;
+use strict;
+use warnings;
+use base 'Mojolicious::Controller';
+
+sub list {
+    my $self = shift;
+    my @<: $table :> = $self->app->db->search('<: $table :>', {});
+    return $self->render(<: $table :> => \@<: $table :>);
+}
+
+sub create {
+    my $self = shift;
+    if($self->req->method eq 'POST'){
+        # update
+        $self->app->db->insert('<: $table :>',
+            {
+: for $cols -> $col {
+                <: $col :> => $self->req->param('<: $col :>'),
+: } # for
+            },
+        );
+        return $self->redirect_to('/<: $table :>/list');
+    }else{
+        return $self->render;
+    }
+}
+
+sub edit {
+    my $self = shift;
+    my $key  = $self->stash('id');
+    if($self->req->method eq 'POST'){
+        # update
+        $self->app->db->update('<: $table :>',
+            {
+: for $cols -> $col {
+                <: $col :> => $self->req->param('<: $col :>'),
+: } # for
+            },
+            { <: $pk :> => $key },
+
+        );
+        return $self->redirect_to('/<: $table :>/list');
+    }else{
+        my $<: $table :> = $self->app->db->single('<: $table :>', { <: $pk :> => $key });
+        return $self->render(<: $table :> => $<: $table :>);
+    }
+}
+
+sub delete {
+    my $self = shift;
+    my $key  = $self->stash('id');
+    if($self->req->method eq 'POST'){
+        # delete
+        $self->app->db->delete('<: $table :>',
+            { <: $pk :> => $key },
+        );
+        return $self->redirect_to('/<: $table :>/list');
+    }else{
+        my $<: $table :> = $self->app->db->single('<: $table :>', { <: $pk :> => $key });
+        return $self->render({<: $table :> => $<: $table :>});
+    }
+}
+
+1;
+

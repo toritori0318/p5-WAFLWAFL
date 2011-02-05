@@ -1,0 +1,65 @@
+package <: $app :>::Web::C::<: $package :>;
+use strict;
+use warnings;
+
+sub list {
+    my ($class, $c) = @_;
+    my @<: $table :> = $c->db->search('<: $table :>', {});
+    return $c->render('<: $table :>/list<: $ext :>', {<: $table :> => \@<: $table :>});
+}
+
+sub create {
+    my ($class, $c) = @_;
+    if($c->req->method eq 'POST'){
+        # update
+        $c->db->insert('<: $table :>',
+            {
+: for $cols -> $col {
+                <: $col :> => $c->req->param('<: $col :>'),
+: } # for
+            },
+        );
+        return $c->redirect('/<: $table :>/list');
+    }else{
+        return $c->render('<: $table :>/create<: $ext :>');
+    }
+}
+
+sub edit {
+    my ($class, $c) = @_;
+    my $key  = $c->{args}->{id};
+    if($c->req->method eq 'POST'){
+        # update
+        $c->db->update('<: $table :>',
+            {
+: for $cols -> $col {
+                <: $col :> => $c->req->param('<: $col :>'),
+: } # for
+            },
+            { <: $pk :> => $key },
+
+        );
+        return $c->redirect('/<: $table :>/list');
+    }else{
+        my $<: $table :> = $c->db->single('<: $table :>', { <: $pk :> => $key });
+        return $c->render('<: $table :>/edit<: $ext :>', {<: $table :> => $<: $table :>});
+    }
+}
+
+sub delete {
+    my ($class, $c) = @_;
+    my $key  = $c->{args}->{id};
+    if($c->req->method eq 'POST'){
+        # delete
+        $c->db->delete('<: $table :>',
+            { <: $pk :> => $key },
+        );
+        return $c->redirect('/<: $table :>/list');
+    }else{
+        my $<: $table :> = $c->db->single('<: $table :>', { <: $pk :> => $key });
+        return $c->render('<: $table :>/delete<: $ext :>', {<: $table :> => $<: $table :>});
+    }
+}
+
+1;
+

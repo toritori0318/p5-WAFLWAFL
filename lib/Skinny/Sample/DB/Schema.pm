@@ -1,4 +1,4 @@
-package Sample::DB::Schema;
+package Skinny::Sample::DB::Schema;
 use DBIx::Skinny::Schema;
 
 ########################################

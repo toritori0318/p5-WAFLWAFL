@@ -1,4 +1,4 @@
-<form action='[% uri_for('/<: $table :>/delete') %]' method='POST'>
+<form action='[% uri_for('/<: $table :>/delete/' _ <: $table :>.<: $pk :>) %]' method='POST'>
 <table border=1>
   <tbody>
 : for $cols -> $col {

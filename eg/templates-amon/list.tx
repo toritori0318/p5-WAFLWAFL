@@ -13,8 +13,8 @@
 : for $cols -> $col {
       <td> [% row.<: $col :> %] </td>
 : } # for
-      <td> <a href="[% uri_for('/<: $table :>/edit', {<: $pk :> => row.<: $pk :>}) %]">edit</a> </td>
-      <td> <a href="[% uri_for('/<: $table :>/delete', {<: $pk :> => row.<: $pk :>}) %]">delete</a> </td>
+      <td> <a href="[% uri_for('/<: $table :>/edit/'   _ row.<: $pk :>) %]">edit</a> </td>
+      <td> <a href="[% uri_for('/<: $table :>/delete/' _ row.<: $pk :>) %]">delete</a> </td>
     </tr>
   [% END %]
   </tbody>

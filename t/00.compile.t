@@ -8,6 +8,7 @@ BEGIN {
     use_ok('WAFLWAFL::ORM::Skinny');
     use_ok('WAFLWAFL::WAF');
     use_ok('WAFLWAFL::WAF::Controller');
+    use_ok('WAFLWAFL::WAF::Dispatcher');
     use_ok('WAFLWAFL::WAF::View');
 };
 

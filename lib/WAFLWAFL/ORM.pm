@@ -13,8 +13,20 @@ sub new {
     bless {%$p}, $subclass;
 }
 
+sub schema {
+    my ($self) = @_;
+    if ($self->schema_class){
+        my $schema_class = $self->schema_class;
+        $schema_class->require or die $!;
+        return $schema_class;
+    }
+}
+
 sub schemas {
     die 'die schemas';
+}
+sub schema_info {
+    die 'die schema_info';
 }
 sub pk {
     die 'die pk';

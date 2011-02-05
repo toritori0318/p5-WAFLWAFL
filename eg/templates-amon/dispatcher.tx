@@ -1,0 +1,5 @@
+submapper('/<: $table :>', { controller => '<: $package :>'} )
+  ->connect('/list',        {action => 'list'})
+  ->connect('/create',      {action => 'create'})
+  ->connect('/edit/{id}',   {action => 'edit'})
+  ->connect('/delete/{id}', {action => 'delete'});

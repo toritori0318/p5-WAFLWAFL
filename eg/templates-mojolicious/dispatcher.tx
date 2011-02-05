@@ -1,0 +1,4 @@
+$r->route('/<: $table :>/list')->to('<: $table :>#list');
+$r->route('/<: $table :>/create')->to('<: $table :>#create');
+$r->route('/<: $table :>/edit/:id')->to('<: $table :>#edit');
+$r->route('/<: $table :>/delete/:id')->to('<: $table :>#delete');

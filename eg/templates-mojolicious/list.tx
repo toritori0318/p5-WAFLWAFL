@@ -1,0 +1,22 @@
+<a href="<%= url_for('/<: $table :>/create') %>">create</a>
+<table border=1>
+  <tbody>
+    <tr>
+: for $cols -> $col {
+      <th><: $col :></th>
+: } # for
+      <th> edit </th>
+      <th> delete </th>
+    </tr>
+
+  <% for my $row (@$<: $table :>) { %>
+    <tr>
+: for $cols -> $col {
+      <td> <%= $row-><: $col :> %> </td>
+: } # for
+      <td> <a href="<%= url_for('/<: $table :>/edit/' .  $row-><: $pk :>) %>">edit</a> </td>
+      <td> <a href="<%= url_for('/<: $table :>/delete/'. $row-><: $pk :>) %>">delete</a> </td>
+    </tr>
+<% } %>
+  </tbody>
+</table>

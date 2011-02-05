@@ -4,15 +4,6 @@ use warnings;
 use parent 'WAFLWAFL::ORM';
 use UNIVERSAL::require;
 
-sub schema {
-    my ($self) = @_;
-    if ($self->schema_class){
-        my $schema_class = $self->schema_class;
-        $schema_class->require;
-        return $schema_class;
-    }
-}
-
 sub schema_info {
     my ($self) = @_;
     my $schema = $self->schema;

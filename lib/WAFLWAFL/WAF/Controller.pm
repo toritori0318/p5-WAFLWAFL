@@ -11,17 +11,16 @@ sub templates {
 
 sub dir {
     my $self = shift;
-    return $self->c;
+    return $self->c->{dir} or die 'die controller config [dir]';
+}
+
+sub file {
+    return;
 }
 
 sub ext {
     my $self = shift;
     return '.pm';
-}
-
-sub output_template_dir {
-    my ($self, $table) = @_;
-    return File::Spec->catfile($self->output, $self->dir);
 }
 
 sub output_template_file {
