@@ -17,14 +17,14 @@ sub file {
     return;
 }
 
-sub ext {
+sub output_ext {
     my $self = shift;
-    return $self->v->{ext} || '.tt';
+    return $self->v->{output_ext} || '.tt';
 }
 
 sub output_template_file {
     my ($self, $table, $file) = @_;
-    return File::Spec->catfile($self->output, $self->dir, lc($table), $file.$self->ext);
+    return File::Spec->catfile($self->output, $self->dir, lc($table), $file.$self->output_ext);
 }
 
 1;

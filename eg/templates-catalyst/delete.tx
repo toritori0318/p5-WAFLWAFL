@@ -1,0 +1,13 @@
+<form action='[% uri_for('/<: $table :>/delete/' _ <: $table :>.<: $pk :>) %]' method='POST'>
+<table border=1>
+  <tbody>
+: for $cols -> $col {
+    <tr>
+      <th><: $col :></th>
+      <td>[% <: $table :>.<: $col :> %]</td>
+    </tr>
+: } # for
+  </tbody>
+</table>
+<input type="submit" value="submit" />
+</form>

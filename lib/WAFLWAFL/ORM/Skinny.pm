@@ -28,6 +28,3 @@ sub columns {
 }
 
 1;
-
-
-

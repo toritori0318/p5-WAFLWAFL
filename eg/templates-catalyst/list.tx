@@ -1,0 +1,21 @@
+<a href="[% uri_for('/<: $table :>/create') %]">create</a>
+<table border=1>
+  <tbody>
+    <tr>
+: for $cols -> $col {
+      <th><: $col :></th>
+: } # for
+      <th> edit </th>
+      <th> delete </th>
+    </tr>
+  [% FOR row IN <: $table :> %]
+    <tr>
+: for $cols -> $col {
+      <td> [% row.<: $col :> %] </td>
+: } # for
+      <td> <a href="[% uri_for('/<: $table :>/edit/'   _ row.<: $pk :>) %]">edit</a> </td>
+      <td> <a href="[% uri_for('/<: $table :>/delete/' _ row.<: $pk :>) %]">delete</a> </td>
+    </tr>
+  [% END %]
+  </tbody>
+</table>

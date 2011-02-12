@@ -18,7 +18,7 @@ sub file {
     return $self->d->{file} or die 'die dispatcher config [file]';
 }
 
-sub ext {
+sub output_ext {
     return;
 }
 

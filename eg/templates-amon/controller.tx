@@ -11,7 +11,7 @@ sub list {
 sub create {
     my ($class, $c) = @_;
     if($c->req->method eq 'POST'){
-        # update
+        # insert
         $c->db->insert('<: $table :>',
             {
 : for $cols -> $col {

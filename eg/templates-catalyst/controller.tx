@@ -1,0 +1,68 @@
+package <: $app :>::Web::Controller::<: $package :>;
+use Moose;
+use namespace::autoclean;
+
+BEGIN { extends 'Catalyst::Controller' }
+
+__PACKAGE__->config(namespace => '');
+
+sub list : Local {
+    my ($class, $c) = @_;
+    my @<: $table :> = $c->model('<: $package :>')->search();
+    $c->{stash}->{<: $table :>} = [@<: $table :>];
+}
+
+sub create : Local {
+    my ($class, $c) = @_;
+    if($c->req->method eq 'POST'){
+        # insert
+        $c->model('<: $package :>')->insert(
+            {
+: for $cols -> $col {
+                <: $col :> => $c->req->param('<: $col :>'),
+: } # for
+            },
+        );
+        $c->res->redirect($c->uri_for('/<: $table :>/list'));
+        return;
+    }
+}
+
+sub edit : Path : Args(1) {
+    my ($class, $c, $key) = @_;
+    if($c->req->method eq 'POST'){
+        # update
+        $c->model('<: $package :>')->update(
+            {
+: for $cols -> $col {
+                <: $col :> => $c->req->param('<: $col :>'),
+: } # for
+            },
+            { <: $pk :> => $key },
+
+        );
+        $c->res->redirect($c->uri_for('/<: $table :>/list'));
+    }else{
+        my $<: $table :> = $c->model('<: $package :>')->single({ <: $pk :> => $key });
+        $c->{stash}->{<: $table :>} = [@<: $table :>];
+    }
+}
+
+sub delete : Path : Args(1) {
+    my ($class, $c, $key) = @_;
+    if($c->req->method eq 'POST'){
+        # delete
+        $c->model('<: $package :>')->delete(
+            { <: $pk :> => $key },
+        );
+        return $c->redirect('/<: $table :>/list');
+    }else{
+        my $<: $table :> = $c->model('<: $package :>')->single('<: $table :>', { <: $pk :> => $key });
+        $c->{stash}->{<: $table :>} = [@<: $table :>];
+    }
+}
+
+__PACKAGE__->meta->make_immutable;
+
+1;
+

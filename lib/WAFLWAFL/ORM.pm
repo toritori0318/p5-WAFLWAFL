@@ -36,6 +36,3 @@ sub columns {
 }
 
 1;
-
-
-

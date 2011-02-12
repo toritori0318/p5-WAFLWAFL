@@ -18,14 +18,14 @@ sub file {
     return;
 }
 
-sub ext {
+sub output_ext {
     my $self = shift;
     return '.pm';
 }
 
 sub output_template_file {
     my ($self, $table, $file) = @_;
-    return File::Spec->catfile($self->output, $self->dir, camelize($table).$self->ext);
+    return File::Spec->catfile($self->output, $self->dir, camelize($table).$self->output_ext);
 }
 
 1;

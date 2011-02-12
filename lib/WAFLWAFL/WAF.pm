@@ -15,8 +15,8 @@ sub file {
     die 'die file';
 }
 
-sub ext {
-    die 'die ext';
+sub output_ext {
+    die 'die output_ext';
 }
 
 sub output_template_dir {
@@ -28,6 +28,43 @@ sub output_template_file {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+WAFLWAFL::WAF - WAF Base Class
 
 
+=head1 METHODS
 
+all abstract subroutine...
+
+=over
+
+=item templates
+
+Specify tempalte file.
+
+=item dir
+
+Specify input tempalte directory.
+
+=item file
+
+Specify input tempalte file.
+
+=item output_ext
+
+Specify output file extension.
+
+=item output_template_dir
+
+Specify output directory.
+
+=item output_template_file
+
+Specify output file.
+
+=back
+
+=cut
