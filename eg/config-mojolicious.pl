@@ -2,7 +2,7 @@ use File::Spec;
 my $app = 'MyApp';
 +{
     'APP'    => $app,
-    'OUTPUT' => 'crudsample',
+    'OUTPUT' => 'crudsample-mojolicious',
     'ORM' => {
         module       => 'Skinny',
         schema_class => 'Skinny::Sample::DB',

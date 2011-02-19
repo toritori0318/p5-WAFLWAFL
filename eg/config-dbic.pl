@@ -2,7 +2,7 @@ use File::Spec;
 my $app = 'MyApp';
 +{
     'APP'    => $app,
-    'OUTPUT' => 'crudsample',
+    'OUTPUT' => 'crudsample-dbic',
     'ORM' => {
         module       => 'DBIC',
         schema_class => 'DBIC::Sample::Schema',
