@@ -26,17 +26,18 @@ sub run {
     my %prm;
     $prm{app}    = $config->{APP}    || "MyApp";
     $prm{output} = $config->{OUTPUT} || "crudsample";
-    if($config->{TMPL}) {
-        $prm{src} = $config->{TMPL}->{src};
-        $prm{d}   = $config->{TMPL}->{dispatcher};
-        $prm{c}   = $config->{TMPL}->{controller};
-        $prm{v}   = $config->{TMPL}->{view};
-    } else {
-        die "require config value [TMPL]";
+    $prm{src}    = $config->{SRC} or die "require config value [SRC]";
+    unless($config->{WAF}) {
+        die "require config value [WAF]";
     }
-    $class->proc(WAFLWAFL::WAF::Dispatcher->new(\%prm)) if $prm{d};
-    $class->proc(WAFLWAFL::WAF::Controller->new(\%prm)) if $prm{c};
-    $class->proc(WAFLWAFL::WAF::View->new(\%prm)) if $prm{v};
+
+    my $module = 'WAFLWAFL::WAF::';
+    for my $key (keys %{$config->{WAF}}){
+        my $wafl_module = $module . $key;
+        $wafl_module->require or die $@;
+        $prm{cv} = $config->{WAF}->{$key};
+        $class->proc($wafl_module->new(\%prm));
+    }
 }
 
 sub proc {
@@ -69,7 +70,7 @@ sub proc {
                         table    => lc($table),
                         pk       => $pk,
                         cols     => $cols,
-                        ext      => $waf->v->{ext},
+                        ext      => $waf->{output_ext},
                     }
                 );
             }
@@ -89,7 +90,7 @@ sub proc {
                         table    => lc($table),
                         pk       => $pk,
                         cols     => $cols,
-                        ext      => $waf->v->{output_ext},
+                        ext      => $waf->{output_ext},
                     }
                 );
                 $class->_mkfile($waf->output_template_file($table, $template), $render);

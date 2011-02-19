@@ -2,6 +2,7 @@ use strict;
 use warnings;
 
 use Test::More;
+use Test::Requires qw/DBIx::Skinny/;
 use WAFLWAFL::ORM;
 use lib 't/lib';
 

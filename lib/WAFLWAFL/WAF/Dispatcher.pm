@@ -15,7 +15,7 @@ sub dir {
 
 sub file {
     my $self = shift;
-    return $self->d->{file} or die 'die dispatcher config [file]';
+    return $self->cv->{file} or die 'die dispatcher config [file]';
 }
 
 sub output_ext {

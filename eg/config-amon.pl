@@ -7,15 +7,15 @@ my $app = 'MyApp';
         module       => 'Skinny',
         schema_class => 'Skinny::Sample::DB',
     },
-    'TMPL' => {
-        src => File::Spec->catfile('eg', 'templates-amon'),
-        dispatcher => {
+    'SRC' => File::Spec->catfile('eg', 'templates-amon'),
+    'WAF' => {
+        Dispatcher => {
             file => File::Spec->catfile('lib', $app, 'Web', "Dispatcher.pm.sample"),
         },
-        controller => {
+        Controller => {
             dir => File::Spec->catfile('lib', $app, 'Web', 'C'),
         },
-        view => {
+        View => {
             dir => "tmpl",
             ext => ".tt",
         },

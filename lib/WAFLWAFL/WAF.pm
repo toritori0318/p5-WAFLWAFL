@@ -1,7 +1,7 @@
 package WAFLWAFL::WAF;
 use strict;
 use warnings;
-use Class::Accessor::Lite new => 1, rw => [ qw(app output src d c v)] ; 
+use Class::Accessor::Lite new => 1, rw => [ qw(app output src cv)] ; 
 
 sub templates {
     die 'die templates';

@@ -7,12 +7,12 @@ my $app = 'MyApp';
         module       => 'Skinny',
         schema_class => 'Skinny::Sample::DB',
     },
-    'TMPL' => {
-        src => File::Spec->catfile('eg', 'templates-catalyst'),
-        controller => {
+    'SRC' => File::Spec->catfile('eg', 'templates-catalyst'),
+    'WAF' => {
+        Controller => {
             dir => File::Spec->catfile('lib', $app, 'Web', 'Controller'),
         },
-        view => {
+        View => {
             dir => "root",
             ext => ".tt",
         },

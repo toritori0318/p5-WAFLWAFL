@@ -80,7 +80,7 @@ config file
       module     => 'Skinny',
       class      => 'Skinny::Sample::DB',
       table      => 'emp',
-      tmpl       => '<: \$column :>,',
+      tmpl       => '<: $column :>,',
   };
 
 =item  --help

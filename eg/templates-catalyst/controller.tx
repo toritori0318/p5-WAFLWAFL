@@ -4,19 +4,16 @@ use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller' }
 
-__PACKAGE__->config(namespace => '');
-
 sub list : Local {
     my ($class, $c) = @_;
-    my @<: $table :> = $c->model('<: $package :>')->search();
-    $c->{stash}->{<: $table :>} = [@<: $table :>];
+    $c->stash(<: $table :> => [$c->model('DB::<: $package :>')->all]);
 }
 
 sub create : Local {
     my ($class, $c) = @_;
     if($c->req->method eq 'POST'){
         # insert
-        $c->model('<: $package :>')->insert(
+        $c->model('DB::<: $package :>')->create(
             {
 : for $cols -> $col {
                 <: $col :> => $c->req->param('<: $col :>'),
@@ -28,37 +25,31 @@ sub create : Local {
     }
 }
 
-sub edit : Path : Args(1) {
+sub edit :Chained('/') :PathPart('<: $table :>/edit') :Args(1) {
     my ($class, $c, $key) = @_;
     if($c->req->method eq 'POST'){
         # update
-        $c->model('<: $package :>')->update(
+        $c->model('DB::<: $package :>')->find($key)->update(
             {
 : for $cols -> $col {
                 <: $col :> => $c->req->param('<: $col :>'),
 : } # for
             },
-            { <: $pk :> => $key },
-
         );
         $c->res->redirect($c->uri_for('/<: $table :>/list'));
     }else{
-        my $<: $table :> = $c->model('<: $package :>')->single({ <: $pk :> => $key });
-        $c->{stash}->{<: $table :>} = [@<: $table :>];
+        $c->stash(<: $table :> => $c->model('DB::<: $package :>')->find($key));
     }
 }
 
-sub delete : Path : Args(1) {
+sub delete :Chained('/') :PathPart('<: $table :>/delete') :Args(1) {
     my ($class, $c, $key) = @_;
     if($c->req->method eq 'POST'){
         # delete
-        $c->model('<: $package :>')->delete(
-            { <: $pk :> => $key },
-        );
-        return $c->redirect('/<: $table :>/list');
+        $c->model('DB::<: $package :>')->find($key)->delete;
+        $c->res->redirect($c->uri_for('/<: $table :>/list'));
     }else{
-        my $<: $table :> = $c->model('<: $package :>')->single('<: $table :>', { <: $pk :> => $key });
-        $c->{stash}->{<: $table :>} = [@<: $table :>];
+        $c->stash(<: $table :> => $c->model('DB::<: $package :>')->find($key));
     }
 }
 

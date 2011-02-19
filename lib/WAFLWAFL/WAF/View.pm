@@ -10,7 +10,7 @@ sub templates {
 
 sub dir {
     my $self = shift;
-    return $self->v->{dir} or die 'die view config [dir]';
+    return $self->cv->{dir} or die 'die view config [dir]';
 }
 
 sub file {
@@ -19,7 +19,7 @@ sub file {
 
 sub output_ext {
     my $self = shift;
-    return $self->v->{output_ext} || '.tt';
+    return $self->cv->{output_ext} || '.tt';
 }
 
 sub output_template_file {

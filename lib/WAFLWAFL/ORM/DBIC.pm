@@ -2,6 +2,7 @@ package WAFLWAFL::ORM::DBIC;
 use strict;
 use warnings;
 use parent 'WAFLWAFL::ORM';
+use String::CamelCase qw(camelize);
 use UNIVERSAL::require;
 
 sub schema_info {
@@ -19,14 +20,14 @@ sub schemas {
 sub pk {
     my ($self, $table) = @_;
     my $schema = $self->schema;
-    my @pks = $schema->source($table)->primary_columns;
+    my @pks = $schema->source(camelize($table))->primary_columns;
     return $pks[0];
 }
 
 sub columns {
     my ($self, $table) = @_;
     my $schema = $self->schema;
-    return [$schema->source($table)->columns];
+    return [$schema->source(camelize($table))->columns];
 }
 
 1;

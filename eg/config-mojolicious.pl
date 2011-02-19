@@ -7,15 +7,15 @@ my $app = 'MyApp';
         module       => 'Skinny',
         schema_class => 'Skinny::Sample::DB',
     },
-    'TMPL' => {
-        src => File::Spec->catfile('eg', 'templates-mojolicious'),
-        dispatcher => {
+    'SRC' => File::Spec->catfile('eg', 'templates-mojolicious'),
+    'WAF' => {
+        Dispatcher => {
             file => File::Spec->catfile('lib', "$app.pm.dispatcher"),
         },
-        controller => {
+        Controller => {
             dir => File::Spec->catfile('lib', $app),
         },
-        view => {
+        View => {
             dir => "templates",
             ext => ".html.ep",
         },

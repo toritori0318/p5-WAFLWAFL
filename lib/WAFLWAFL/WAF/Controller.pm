@@ -11,7 +11,7 @@ sub templates {
 
 sub dir {
     my $self = shift;
-    return $self->c->{dir} or die 'die controller config [dir]';
+    return $self->cv->{dir} or die 'die controller config [dir]';
 }
 
 sub file {

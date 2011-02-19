@@ -7,15 +7,15 @@ my $app = 'MyApp';
         module       => 'DBIC',
         schema_class => 'DBIC::Sample::Schema',
     },
-    'TMPL' => {
-        src => File::Spec->catfile('eg', 'templates-amon'),
-        dispatcher => {
+    'SRC' => File::Spec->catfile('eg', 'templates-amon'),
+    'WAF' => {
+        Dispatcher => {
             file => File::Spec->catfile('lib', $app, 'Web', "Dispatcher.pm.sample"),
         },
-        controller => {
+        Controller => {
             dir => File::Spec->catfile('lib', $app),
         },
-        view => {
+        View => {
             dir => "tmpl",
             ext => ".tt",
         },

@@ -1,4 +1,4 @@
-<form action='[% uri_for('/<: $table :>/create') %]' method='POST'>
+<form action='[% c.uri_for('/<: $table :>/create') %]' method='POST'>
 <table border=1>
   <tbody>
 : for $cols -> $col {
