@@ -19,7 +19,7 @@ sub file {
 
 sub output_ext {
     my $self = shift;
-    return $self->cv->{output_ext} || '.tt';
+    return $self->cv->{ext} || '.tt';
 }
 
 sub output_template_file {
