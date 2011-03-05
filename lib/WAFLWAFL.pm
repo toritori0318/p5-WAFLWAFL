@@ -141,9 +141,10 @@ __END__
 
 WAFLWAFL - CRUD Template generator
 
-=head1 SEE ALSO
+=head1 SYNOPSIS
 
-wafl.pl / wafl-simple.pl
+SEE ALSO
+ wafl / wafl-simple
 
 =head1 AUTHOR
 
