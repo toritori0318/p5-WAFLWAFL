@@ -7,7 +7,7 @@ my $app = 'MyApp';
         module       => 'Skinny',
         schema_class => 'Skinny::Sample::DB',
     },
-    'SRC_EXAMPLE' => 'amon',
+    'SRC' => File::Spec->catfile('eg', 'templates-amon'),
     'WAF' => {
         Dispatcher => {
             file => File::Spec->catfile('lib', $app, 'Web', "Dispatcher.pm.sample"),

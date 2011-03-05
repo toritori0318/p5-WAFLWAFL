@@ -1,11 +1,11 @@
 +{
     module  => 'Skinny',
     class   => 'Skinny::Sample::DB',
-    table   => 'dept',
-    tmpl    => '<: $column :>,',
+    #tmpl    => '<: $column :>,',
     #tmpl    => '<: $column :>=?,'."\n",
     #tmpl    => '<: $column :>=? and' . "\n",
     #tmpl    => 'my $<: $column :> = shift;' . "\n",
+    #tmpl    => '<: $column :> => $c->req->param("<: $column :>"),' . "\n",
 #    tmpl    => q|
 #sub <: $column :> {
 #    my $self = shift;

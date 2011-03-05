@@ -8,7 +8,7 @@ use WAFLWAFL::ORM;
 use Text::Xslate;
 
 sub proc {
-    my ($orm_module, $orm_class, $table, $tmpl) = @_;
+    my ($orm_module, $orm_class, $tmpl, $table) = @_;
     my $orm = WAFLWAFL::ORM->new(
         {
             module       => $orm_module,
@@ -31,20 +31,20 @@ __END__
 
 =head1 NAME
 
-WAFLWAFL::Simple - WAFLWAFL Simple
+WAFLWAFL::Simple - WAFLWAFL Simple Generater
 
 =head1 SYNOPSIS
 
   # one liner
-  perl -MWAFLWAFL::Simple -e 'proc("Skinny", "Skinny::Sample::DB", "emp", "<td><: \$column :></td>")'
+  perl -MWAFLWAFL::Simple -e 'proc("Skinny", "Skinny::Sample::DB", "<td><: \$column :></td>", "emp")'
 
 =head1 DESCRIPTION
 
-WAFLWAFL Simple.
+WAFLWAFL Simple Generater.
 
 =head1 EXPORT FUNCTIONS
 
-=item proc($orm_module, $orm_class, $table, $tmpl);
+=item proc($orm_module, $orm_class, $tmpl, $table);
 
 =head1 AUTHOR
 

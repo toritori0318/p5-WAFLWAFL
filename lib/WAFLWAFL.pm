@@ -4,20 +4,29 @@ use strict;
 use warnings;
 
 our $VERSION = '0.01';
+use 5.008001;
 
 use WAFLWAFL::ORM;
-use WAFLWAFL::WAF::Dispatcher;
-use WAFLWAFL::WAF::Controller;
-use WAFLWAFL::WAF::View;
 
-use Class::Accessor::Lite new => 1, rw => [ qw(conf)] ;
+use Class::Accessor::Lite new => 1, rw => [ qw(conf waf)] ;
 use String::CamelCase qw(camelize);
-use autodie;
 use File::Spec;
 use File::Path qw/mkpath/;
 use File::Basename qw/dirname/;
 use Text::Xslate;
 use UNIVERSAL::require;
+use Class::Inspector;
+use File::Copy::Recursive qw(rcopy);
+
+sub get {
+    my ($class) = @_;
+    my $waf = $class->waf;
+
+    my $from_dir = File::Spec->catfile($class->_srcdir(), 'example-templates' ,$waf);
+    my $to_dir = './wafl-template';
+    rcopy($from_dir, $to_dir) or die "Can not copy `$from_dir` to `$to_dir`.";
+    print "get template to $to_dir\n";
+}
 
 sub run {
     my ($class) = @_;
@@ -26,7 +35,13 @@ sub run {
     my %prm;
     $prm{app}    = $config->{APP}    || "MyApp";
     $prm{output} = $config->{OUTPUT} || "crudsample";
-    $prm{src}    = $config->{SRC} or die "require config value [SRC]";
+    if($config->{SRC_EXAMPLE}) {
+        $prm{src} = File::Spec->catfile($class->_srcdir(), 'example-templates' ,$config->{SRC_EXAMPLE});
+    } elsif ($config->{SRC}) {
+        $prm{src} = $config->{SRC};
+    } else {
+        die "require config value [SRC_EXAMPLE] or [SRC]";
+    }
     unless($config->{WAF}) {
         die "require config value [WAF]";
     }
@@ -110,6 +125,13 @@ sub _mkfile {
     open my $fh, ">", $file;
     print $fh $data;
     close $fh;
+}
+
+sub _srcdir {
+    my ($class) = @_;
+    my $dir = Class::Inspector->resolved_filename(__PACKAGE__);
+    $dir =~ s/.pm$//;
+    return $dir;
 }
 
 1;

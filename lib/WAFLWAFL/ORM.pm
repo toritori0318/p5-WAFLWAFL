@@ -17,7 +17,7 @@ sub schema {
     my ($self) = @_;
     if ($self->schema_class){
         my $schema_class = $self->schema_class;
-        $schema_class->require or die $!;
+        $schema_class->require or die "[$schema_class] $!";
         return $schema_class;
     }
 }
@@ -36,3 +36,47 @@ sub columns {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+WAFLWAFL::ORM - ORM Base Class
+
+=head1 Accessor
+
+=over
+
+=item schema_class
+
+Schema Class Name.
+
+=back
+
+=head1 METHODS
+
+=over
+
+=item schema
+
+Schema Class Instance.
+
+=item schemas
+
+schemas.
+
+=item schema_info
+
+schema_info.
+
+=item pk
+
+get primary key column.
+
+=item columns
+
+get columns.
+
+=back
+
+=cut
+

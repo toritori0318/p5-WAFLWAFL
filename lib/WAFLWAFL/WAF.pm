@@ -34,10 +34,31 @@ __END__
 
 WAFLWAFL::WAF - WAF Base Class
 
+=head1 Accessor
+
+=over
+
+=item app
+
+Application Name.
+
+=item output
+
+Output Directory.
+
+=item src
+
+Input Template src.
+
+=item cv
+
+stash.
+
+=back
 
 =head1 METHODS
 
-all abstract subroutine...
+all abstract...
 
 =over
 

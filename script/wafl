@@ -1,24 +1,46 @@
-#!/usr/bin/env perl
+#!perl
+
 use strict;
 use warnings;
-use Getopt::Long;
-use Pod::Usage;
-use autodie;
+use Getopt::Compact::WithCmd;
+use lib qw/lib extlib/;
+
 use WAFLWAFL;
 
-GetOptions(
-    'conf=s' => \my $conf,
-    'help'   => \my $help,
-) or pod2usage(0);
-pod2usage(1) if $help;
+my $go = Getopt::Compact::WithCmd->new(
+    name          => 'wafl',
+    version       => '0.1',
+    global_struct => [],
+    command_struct => {
+        run => {
+            options    => [
+                [ [qw/c conf/], 'config file path', '=s', undef, { default => 'wafl.pl' } ],
+            ],
+            desc => 'generate waf template',
+        },
+        get => {
+            options    => [
+                [ [qw/w waf/], 'waf name', '=s', undef, { required => 1 } ],
+            ],
+            desc => 'get example template',
+        },
+    },
+);
 
-sub main {
-    $conf ||= "config.pl";
-    $conf = do $conf or die "Cannot load configuration file: $conf";
+my $opts = $go->opts;
+my $cmd  = $go->command;
+
+if (!$cmd) {
+    print $go->show_usage, "\n";
+} elsif ($cmd eq 'run') {
+    my $conf_file = $opts->{conf};
+    my $conf = do $conf_file or die "Cannot load configuration file: $conf_file";
     WAFLWAFL->new({conf => $conf})->run;
+} elsif ($cmd eq 'get') {
+    my $waf = $opts->{waf};
+    WAFLWAFL->new({waf => $waf})->get;
 }
 
-main();
 exit;
 
 __END__
