@@ -47,13 +47,27 @@ __END__
 
 =head1 NAME
 
-wafl-.pl - Run Minimal CRUD generator
+wafl - Minimal CRUD generator
 
 =head1 USAGE
 
-wafl.pl [OPTION]
+wafl COMMAND [OPTION]
 
-wafl.pl --conf='config.pl'
+wafl run --conf='wafl.pl'
+
+=head1 COMMAND
+
+=over
+
+=item run
+
+generate waf template
+
+=item get
+
+get example template
+
+=back
 
 =head1 OPTIONS
 
@@ -69,20 +83,20 @@ config file
     my $app = 'MyApp';
     +{
         'APP'    => $app,
-        'OUTPUT' => 'crudsample',
+        'OUTPUT' => 'crudsample-amon',
         'ORM' => {
             module       => 'Skinny',
             schema_class => 'Skinny::Sample::DB',
         },
-        'TMPL' => {
-            src => File::Spec->catfile('eg', 'templates-amon'),
-            dispatcher => {
+        'SRC_EXAMPLE' => 'amon',
+        'WAF' => {
+            Dispatcher => {
                 file => File::Spec->catfile('lib', $app, 'Web', "Dispatcher.pm.sample"),
             },
-            controller => {
+            Controller => {
                 dir => File::Spec->catfile('lib', $app, 'Web', 'C'),
             },
-            view => {
+            View => {
                 dir => "tmpl",
                 ext => ".tt",
             },
@@ -97,15 +111,15 @@ help
 
 =head1 PREPARATION
 
-dispatcher (Output 1 file)
+Dispatcher (Output 1 file)
 
   dispatcher.tx
 
-controller (Output per table)
+Controller (Output per table)
 
   controller.tx
 
-view (Output per table)
+View (Output per table)
 
   create.tx
   edit.tx
@@ -132,23 +146,23 @@ Specify WAFLWAFL::ORM::XXXXX (Skinny / DBIC ...)
 
 OR/Mapper Schema Class
 
-=item TMPL->{src}
+=item WAF->{src}
 
 Specify input template directory.
 
-=item TMPL->{dispatcher}->{file}
+=item WAF->{Dispatcher}->{file}
 
 Specify output dispatcher file.
 
-=item TMPL->{controller}->{dir}
+=item WAF->{Controller}->{dir}
 
 Specify output controller dirrectory.
 
-=item TMPL->{view}->{dir}
+=item WAF->{View}->{dir}
 
 Specify output view dirrectory.
 
-=item TMPL->{view}->{ext}
+=item WAF->{View}->{ext}
 
 Specify output view file extension.
 

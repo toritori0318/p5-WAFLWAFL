@@ -4,14 +4,10 @@ use strict;
 use warnings;
 use Getopt::Long;
 use Pod::Usage;
-
-use WAFLWAFL::Simple qw/proc/;
-
-
 use Getopt::Compact::WithCmd;
 use lib qw/lib extlib/;
 
-use WAFLWAFL;
+use WAFLWAFL::Simple qw/proc/;
 
 my $go = Getopt::Compact::WithCmd->new(
     name          => 'wafl',
@@ -69,13 +65,27 @@ __END__
 
 =head1 NAME
 
-wafl-simple.pl - Run WAFLWAFL Simple
+wafl-simple - WAFLWAFL Simple
 
 =head1 USAGE
 
-wafl-simple.pl [OPTION] Table
+wafl-simple COMMAND [OPTION] Table
 
-wafl-simple.pl --module='Skinny' --class='Skinny::Sample::DB' --tmpl='<: $column :>,' emp
+wafl-simple --module='Skinny' --class='Skinny::Sample::DB' --tmpl='<: $column :>,' emp
+
+=head1 COMMAND
+
+=over
+
+=item run
+
+generate waf template
+
+=item oneliner
+
+generate waf template (oneliner)
+
+=back
 
 =head1 OPTIONS
 
