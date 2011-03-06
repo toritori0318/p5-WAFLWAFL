@@ -6,16 +6,6 @@ WAFLWAFL::Manual::JA::WAFL - CRUD ジェネレータ
 
 =head1 概要
 
-
-
-
-=head1 機能
-
-大きく分けて以下の２つがあります。
-基本的には 「wafl」「wafl-simple」 という２つのスクリプトから使用することを想定しています。
-
-=head2 簡易CRUDテンプレート生成 (wafl)
-
 CRUDに必要なコントローラ／ディスパッチャ／ビューを自動生成します。
 サンプルテンプレートはWAF毎に分かれており
 以下のテンプレートを用意してあります。
@@ -26,20 +16,177 @@ CRUDに必要なコントローラ／ディスパッチャ／ビューを自動�
 
 ３：Amon2
 
-また、生成されたテンプレートをそのまま利用することは想定していません。((もちろんそのまま使っても問題ないのですが))
-あくまでMinimalな部分のみの生成となっていますので
-生成されたテンプレートから利用したい部分のみをコピペして
-実際のアプリケーションに適用していく、というシナリオとなっています。
+=head1 Example
+
+実際に使ってみます。
+WAFはAmon2で。
+
+１．インストール
+
+    cpanm https://github.com/toritori0318/p5-WAFLWAFL/tarball/master
+
+２．アプリケーションルートに移動します。
+　スキーマは以下のような感じ。
+
+    package ApiSample::DB::Schema;
+    use DBIx::Skinny::Schema;
+
+    ########################################
+    # schema
+
+    install_table emp => schema {
+        pk qw/empno/;
+        columns qw/empno ename job mgr hiredate sal comm deptno/;
+    };
+
+    install_table dept => schema {
+        pk qw/deptno/;
+        columns qw/deptno dname loc/;
+    };
+
+    1;
+
+３．以下のようなコンフィグファイルを用意します (wafl.pl)
+サンプルはこちらにあります(https://github.com/toritori0318/p5-WAFLWAFL/tree/master/eg)
+
+    use File::Spec;
+    my $app = 'ApiSample';
+    +{
+        'APP'    => $app, # アプリケーション名
+        'OUTPUT' => 'crudsample-amon', # 出力先ディレクトリ名
+
+        'ORM' => {
+            # ORMの指定（Skinny / DBIC）
+            module       => 'Skinny',
+            # スキーマクラスの指定
+            schema_class => 'ApiSample::DB',
+        },
+
+        # exampleの指定 (catalyst / mojolicious / amon)
+        'SRC_EXAMPLE' => 'amon',
+
+        'WAF' => {
+            Dispatcher => {
+                # ディスパッチャファイル名
+                file => File::Spec->catfile('lib', $app, 'Web', "Dispatcher.pm.sample"),
+            },
+            Controller => {
+                # コントローラディレクトリ名
+                dir => File::Spec->catfile('lib', $app, 'Web', 'C'),
+            },
+            View => {
+                # ビューディレクトリ名
+                dir => "tmpl",
+                # テンプレート拡張子
+                ext => ".tt",
+            },
+        },
+    };
+
+４．テンプレートを生成してみます
+
+    $ wafl run
+
+５．以下のようなディレクトリが作成されます
+
+    $ tree crudsample-amon
+    crudsample-amon
+    |-- lib
+    |   `-- ApiSample
+    |       `-- Web
+    |           |-- C
+    |           |   |-- Dept.pm
+    |           |   `-- Emp.pm
+    |           `-- Dispatcher.pm.sample
+    `-- tmpl
+        |-- dept
+        |   |-- create.tt
+        |   |-- delete.tt
+        |   |-- edit.tt
+        |   `-- list.tt
+        `-- emp
+            |-- create.tt
+            |-- delete.tt
+            |-- edit.tt
+            `-- list.tt
+
+６．crudsample-amon/tmpl/dept/list.tt を見てみましょう。
+
+    <a href="[% uri_for('/dept/create') %]">create</a>
+    <table border=1>
+      <tbody>
+        <tr>
+          <th>deptno</th>
+          <th>dname</th>
+          <th>loc</th>
+          <th> edit </th>
+          <th> delete </th>
+        </tr>
+      [% FOR row IN dept %]
+        <tr>
+          <td> [% row.deptno %] </td>
+          <td> [% row.dname %] </td>
+          <td> [% row.loc %] </td>
+          <td> <a href="[% uri_for('/dept/edit/'   _ row.deptno) %]">edit</a> </td>
+          <td> <a href="[% uri_for('/dept/delete/' _ row.deptno) %]">delete</a> </td>
+        </tr>
+      [% END %]
+      </tbody>
+    </table>
+
+こんな感じ。
+
+=head1 Customize Example
+
+では次に、自分用のカスタマイズテンプレートを作ってみます。
+
+１．テンプレートをGET
+
+    $ wafl get -w amon
+    get template to ./wafl-template
 
 
-さらに、用意されたテンプレートをカスタマイズして
-自分の環境用にカスタマイズしたテンプレートから
-CRUD生成することも可能です。
+２．wafl-template/list.tx の１−２行目に以下を追加してみます
 
-=head2 Simpleテンプレート生成 (wafl-simple)
+    [% INCLUDE 'header.tt' %]
+    CUSTOMIZE!!!!
 
-スキーマとテンプレートを指定することで、
-列毎の繰り返し処理をアウトプットします。
-ハッシュのテンプレートなど便利だと思います
+３．wafl.pl の 「SRC_EXAMPLE」 を削除して以下を追加します
+
+    SRC => 'wafl-template',
+
+
+４．テンプレートを生成してみます
+
+    $ wafl run
+
+５．crudsample-amon/tmpl/dept/list.tt を見てみましょう。
+
+    [% INCLUDE 'header.tt' %]
+    CUSTOMIZE!!!!
+
+    <a href="[% uri_for('/dept/create') %]">create</a>
+    <table border=1>
+      <tbody>
+        <tr>
+          <th>deptno</th>
+          <th>dname</th>
+          <th>loc</th>
+          <th> edit </th>
+          <th> delete </th>
+        </tr>
+      [% FOR row IN dept %]
+        <tr>
+          <td> [% row.deptno %] </td>
+          <td> [% row.dname %] </td>
+          <td> [% row.loc %] </td>
+          <td> <a href="[% uri_for('/dept/edit/'   _ row.deptno) %]">edit</a> </td>
+          <td> <a href="[% uri_for('/dept/delete/' _ row.deptno) %]">delete</a> </td>
+        </tr>
+      [% END %]
+      </tbody>
+    </table>
+
+カスタマイズした箇所が追加されていますね！
 
 

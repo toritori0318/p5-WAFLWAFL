@@ -17,17 +17,16 @@ my $go = Getopt::Compact::WithCmd->new(
     command_struct => {
         run => {
             options    => [
-                [ [qw/c conf/], 'config file path', '=s', undef, { default => 'wafl.pl' } ],
+                [ [qw/c conf/], 'config file path', '=s', undef, { default => 'wafl-simple.pl' }, ],
+                [ [qw/t tmpl/], 'template',         '=s', undef, { }, ],
             ],
             desc => 'generate waf template',
         },
         oneliner => {
             options    => [
-                [
-                    [qw/m module/], 'orm module name', '=s', undef, { required => 1 },
-                    [qw/c class/],  'schema class',    '=s', undef, { required => 1 },
-                    [qw/t tmpl/],   'template',        '=s', undef, { required => 1 },
-                ],
+                [ [qw/m module/], 'orm module name', '=s', undef, { required => 1 }, ],
+                [ [qw/c class/],  'schema class',    '=s', undef, { required => 1 }, ],
+                [ [qw/t tmpl/],   'template',        '=s', undef, { required => 1 }, ],
             ],
             desc => 'generate waf template (oneliner)',
         },
@@ -43,10 +42,11 @@ if (!$cmd) {
     my $table = shift @ARGV;
     my $conf_file = $opts->{conf};
     my $conf = do $conf_file or die "Cannot load configuration file: $conf_file";
+    my $tmpl = $opts->{tmpl} || $conf->{tmpl};
     proc(
         $conf->{module},
         $conf->{class},
-        $conf->{tmpl},
+        $tmpl,
         $table,
     );
 } elsif ($cmd eq 'oneliner') {

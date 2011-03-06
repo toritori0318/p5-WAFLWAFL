@@ -1,0 +1,73 @@
+=encoding utf8
+
+=head1 NAME
+
+WAFLWAFL::Manual::JA::Simple - Simple ジェネレータ
+
+=head1 概要
+
+スキーマとテンプレートを指定することで、
+列毎の繰り返し処理をアウトプットします。
+
+=head1 Example
+
+実際に使ってみます。
+WAFLWAFL::Manual::JA::WAFL のExampleの続きということにします。
+
+
+１．以下のようなコンフィグファイルを用意します (wafl-sample.pl)
+
+    +{
+        module  => 'Skinny',
+        class   => 'ApiSample::DB',
+        tmpl    => '<: $column :>,',
+        #tmpl    => '<: $column :>=?,'."\n",
+        #tmpl    => '<: $column :>=? and' . "\n",
+        #tmpl    => 'my $<: $column :> = shift;' . "\n",
+        #tmpl    => '<: $column :> => $c->req->param("<: $column :>"),' . "\n",
+    #    tmpl    => q|
+    #sub <: $column :> {
+    #    my $self = shift;
+    #    if(@_) {
+    #        $self->{<: $column :>} = $_[0];
+    #    }
+    #    return $self->{<: $column :>};
+    #}
+    #|,
+    };
+
+２．テンプレートを出力してみます
+
+    $ wafl-simple run emp
+
+    empno,ename,job,mgr,hiredate,sal,comm,deptno,
+
+３．テンプレートを以下のように変更してみます
+
+    tmpl    => '<: $column :> => $c->req->param("<: $column :>"),' . "\n",
+
+４．テンプレートを出力してみます
+
+    $ wafl-simple run emp
+
+    empno => $c->req->param("empno"),
+    ename => $c->req->param("ename"),
+    job => $c->req->param("job"),
+    mgr => $c->req->param("mgr"),
+    hiredate => $c->req->param("hiredate"),
+    sal => $c->req->param("sal"),
+    comm => $c->req->param("comm"),
+    deptno => $c->req->param("deptno"),
+
+５．出力時にテンプレートを出力することも出来ます
+
+    $ wafl-simple run --tmpl='<: $column :>=? and ' emp
+
+    empno=? and ename=? and job=? and mgr=? and hiredate=? and sal=? and comm=? and deptno=? and 
+
+６．コンフィグを使用せずワンライナーも可能です
+
+    $ wafl-simple oneliner -m Skinny -c ApiSample::DB -t '<: $column :>,' emp
+
+    empno,ename,job,mgr,hiredate,sal,comm,deptno, %
+
