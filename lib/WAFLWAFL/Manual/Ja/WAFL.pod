@@ -16,6 +16,18 @@ CRUDに必要なコントローラ／ディスパッチャ／ビューを自動�
 
 ３：Amon2
 
+=head1 サンプルの説明
+
+=head2 マッピング
+
+create => /<table>/create
+
+edit   => /<table>/edit/<id>
+
+delete => /<table>/delete/<id>
+
+list   => /<table>/list
+
 =head1 Example
 
 実際に使ってみます。
@@ -26,7 +38,8 @@ WAFはAmon2で。
     cpanm https://github.com/toritori0318/p5-WAFLWAFL/tarball/master
 
 ２．アプリケーションルートに移動します。
-　スキーマは以下のような感じ。
+
+サンプルのスキーマは以下のような感じ。
 
     package ApiSample::DB::Schema;
     use DBIx::Skinny::Schema;
@@ -46,7 +59,8 @@ WAFはAmon2で。
 
     1;
 
-３．以下のようなコンフィグファイルを用意します (wafl.pl)
+３．以下のようなコンフィグファイルを用意します (wafl.pl)。
+
 サンプルはこちらにあります(https://github.com/toritori0318/p5-WAFLWAFL/tree/master/eg)
 
     use File::Spec;

@@ -12,6 +12,7 @@ WAFLWAFL::Manual::JA::Simple - Simple ジェネレータ
 =head1 Example
 
 実際に使ってみます。
+
 WAFLWAFL::Manual::JA::WAFL のExampleの続きということにします。
 
 
@@ -42,7 +43,7 @@ WAFLWAFL::Manual::JA::WAFL のExampleの続きということにします。
 
     empno,ename,job,mgr,hiredate,sal,comm,deptno,
 
-３．テンプレートを以下のように変更してみます
+３．コンフィグファイルの tmpl を以下のように変更してみます
 
     tmpl    => '<: $column :> => $c->req->param("<: $column :>"),' . "\n",
 
